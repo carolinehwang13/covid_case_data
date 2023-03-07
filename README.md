@@ -1,13 +1,23 @@
+# <b>Classes<b>
+#### <b>Parse:</b> This class cleans the CSV by removing rows with all zeros. It also removes the "Country_Region" column because it's the same for all rows as well as teh "iso3" column because "iso3" is  and the "Country_Region" and "iso3" is essentially the same as "iso2" and for these purposes, I felt like it was unnecessary. It returns the cleaned data to a new csv "cleaned_cases.csv".
+#### <b>Main:</b> Where the <i>main</i> action occurs. Writes 5 csvs:
+1. New cases per day overall
+2. New cases per day, split by year
+3. Total cases over time
+4. New cases per day per region (West, Midwest, South, Northeast, Territories)
+5. Total cases per state
+#### These CSVs are then used to create the graphs/visuals in Excel. However, some functions in this class originally just plotted the graphs in python. These graphs were fine, but I chose to write to CSVs and use Excel to have an easier time formatting the graphs and making them visually appealing.
+
 # <b>Notes<b>
 ## <b>CSV header meanings</b>:
-### <b>FIP:</b> US only. Federal Information Processing Standards code that uniquely identifies counties within the USA.
-### <b>Admin2:</b> County name. US only.
-### <b>Province_State:</b> Province, state or dependency name.
-### <b>Country_Region:</b> Country, region or sovereignty name. The names of locations included on the Website correspond with the official designations used by the U.S. Department of State.
-### <b>Last Update:</b> MM/DD/YYYY HH:mm:ss (24 hour format, in UTC).
-### <b>Lat and Long_:</b> Dot locations on the dashboard. All points (except for Australia) shown on the map are based on geographic centroids, and are not representative of a specific address, building or any location at a spatial scale finer than a province/state. Australian dots are located at the centroid of the largest city in each state.
-### <b>Combined_Key:</b> "County, State, US"
-### <b>UID:</b>
+#### <b>FIP:</b> US only. Federal Information Processing Standards code that uniquely identifies counties within the USA.
+#### <b>Admin2:</b> County name. US only.
+#### <b>Province_State:</b> Province, state or dependency name.
+#### <b>Country_Region:</b> Country, region or sovereignty name. The names of locations included on the Website correspond with the official designations used by the U.S. Department of State.
+#### <b>Last Update:</b> MM/DD/YYYY HH:mm:ss (24 hour format, in UTC).
+#### <b>Lat and Long_:</b> Dot locations on the dashboard. All points (except for Australia) shown on the map are based on geographic centroids, and are not representative of a specific address, building or any location at a spatial scale finer than a province/state. Australian dots are located at the centroid of the largest city in each state.
+#### <b>Combined_Key:</b> "County, State, US"
+#### <b>UID:</b>
 * US by itself is 840 (UID = code3).
 * US dependencies, American Samoa, Guam, Northern Mariana Islands, Virgin Islands and Puerto Rico, UID = code3. Their Admin0 FIPS codes are different from code3.
 * US states: UID = 840 (country code3) + 000XX (state FIPS code). Ranging from 8400001 to 84000056.

@@ -1,14 +1,7 @@
 import sys
 import csv
-import numpy as np
-from matplotlib import pyplot as plt
 
-#TODO: clean -- out of state lines, lines with all 0
-#graphs I want:
-#   1. covid cases in us over time
-    # 2. covid cases by region
-    # 3. covid cases per season across years
-    # 4. states with largest spikes
+#Paramters for this class: csv filepath to read, filepath to write
 
 class Parse:
     def __init__(self,myFile,writeFile):
@@ -31,6 +24,7 @@ class Parse:
                 header = False
                 
             else:
+                #remove rows that are all zeros, ignoring the header
                 if not self.check_all_zero(row):
                     row.pop(self.headers.index("Country_Region"))
                     row.pop(self.headers.index("iso3"))
