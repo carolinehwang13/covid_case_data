@@ -25,7 +25,7 @@ class Parse:
                 
             else:
                 #remove rows that are all zeros, ignoring the header
-                if not self.check_all_zero(row):
+                if not self.check_all_zero(row) and not self.check_duplicate(row):
                     row.pop(self.headers.index("Country_Region"))
                     row.pop(self.headers.index("iso3"))
                     self.csv_array.append(row)
@@ -45,6 +45,12 @@ class Parse:
             return True
         else:
             return False
+    
+    def check_duplicate(self, currRow):
+        for row in self.csv_array:
+            if row[0] == currRow[0]:
+                print("true")
+                return True
 
     #Writes the cleaned csv into a file
     def write_csv(self):

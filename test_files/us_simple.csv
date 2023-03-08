@@ -1,7 +1,7 @@
 UID,iso2,iso3,code3,FIPS,Admin2,Province_State,Country_Region,Lat,Long_,Combined_Key,1/22/20,1/23/20,1/24/20,1/25/20,1/26/20
 84024001,US,USA,840,24001.0,Allegany,Maryland,US,39.62357628,-78.69280486,"Allegany, Maryland, US",1,2,3,4,7
-84024003,US,USA,840,24003.0,Anne Arundel,Virginia,US,39.00670238,-76.60329337,"Anne Arundel, Maryland, US",1,2,3,3,3
-84024005,US,USA,840,24005.0,Baltimore,Maine,US,39.45784712,-76.62911955,"Baltimore, Maryland, US",1,2,3,4,5
+84024001,US,USA,840,24003.0,Anne Arundel,Virginia,US,39.00670238,-76.60329337,"Anne Arundel, Maryland, US",1,2,3,3,3
+84024001,US,USA,840,24005.0,Baltimore,Maine,US,39.45784712,-76.62911955,"Baltimore, Maryland, US",1,2,3,4,5
 84024510,US,USA,840,24510.0,Baltimore City,California,US,39.30211911,-76.61151012,"Baltimore City, Maryland, US",1,2,3,4,4
 84024009,US,USA,840,24009.0,Calvert,New York,US,38.53961642,-76.56820632,"Calvert, Maryland, US",1,2,3,4,5
 84024011,US,USA,840,24011.0,Caroline,Alabama,US,38.87172293,-75.82904158,"Caroline, Maryland, US",1,2,3,4,5
