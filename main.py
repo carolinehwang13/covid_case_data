@@ -3,25 +3,28 @@ import csv
 import numpy as np
 from matplotlib import pyplot as plt
 
-#TODO: if time, smooth curve
-#graphs I want:
-#   1. covid cases in us over time
-    # 2. covid cases by region
-    # 3. covid cases per season across years
-    # 4. states with largest spikes
-
 class Plot:
-    def __init__(self):
+    def __init__(self, graph_type):
         self.filepath = "cleaned_cases.csv"
-        #self.file_to_write = writeFile
         self.csv_array = []
         self.headers = []
         self.read_csv()
+        self.graph = graph_type
         self.date_start_index = self.headers.index("1/22/20")
-        self.total_cases_vs_time()
-        self.new_cases_per_day_vs_time()
-        self.state_to_total()
-        self.regional_vs_time()
+        
+
+        if self.graph == "totalVsTime":
+            self.total_cases_vs_time()
+        elif self.graph == "newCasesVsTime":
+            self.new_cases_per_day_vs_time()
+        elif self.graph == "stateToTotal":
+            self.state_to_total()
+        elif self.graph == "regionalVsTime":
+            self.regional_vs_time()
+        else:
+            print("please provide a valid graph (totalVsTime, newCasesVsTime, regionalToTotal, regionalVsTime)")
+            exit()
+
 
         
     #Reads in the csv
@@ -51,13 +54,13 @@ class Plot:
             for i in range(self.date_start_index, len(row)):
                 daily_totals[i-self.date_start_index] = daily_totals[i-self.date_start_index] + int(row[i])
                 
-        self.write_csv([dates, daily_totals], "csvs_final/total_cases_daily.csv")
-        # x = np.arange(0, len(self.headers) - self.date_start_index)
-        # plt.title("Total Cases Over Time")
-        # plt.xlabel("Days Since First Case")
-        # plt.ylabel("Total Number of Cases")
-        # plt.plot(x, daily_totals)
-        # plt.show()
+        # self.write_csv([dates, daily_totals], "csvs_final/total_cases_daily.csv")
+        x = np.arange(0, len(self.headers) - self.date_start_index)
+        plt.title("Total Cases Over Time")
+        plt.xlabel("Days Since First Case")
+        plt.ylabel("Total Number of Cases")
+        plt.plot(x, daily_totals)
+        plt.show()
     
     #Plots a graph of new cases per day
     def new_cases_per_day_vs_time(self):
@@ -99,21 +102,22 @@ class Plot:
             elif dates[i].endswith("22"):
                 year_three_totals.append(daily_totals[i])
 
-        csv_to_write = [dates, daily_totals]
-        self.write_csv(csv_to_write, "csvs_final/new_cases_daily.csv")
-        self.write_csv([year_one, year_one_totals],"csvs_final/new_cases_20.csv")
-        self.write_csv([year_two, year_two_totals],"csvs_final/new_cases_21.csv")
-        self.write_csv([year_three, year_three_totals],"csvs_final/new_cases_22.csv")
+        # csv_to_write = [dates, daily_totals]
+        # self.write_csv(csv_to_write, "csvs_final/new_cases_daily.csv")
+        # self.write_csv([year_one, year_one_totals],"csvs_final/new_cases_20.csv")
+        # self.write_csv([year_two, year_two_totals],"csvs_final/new_cases_21.csv")
+        # self.write_csv([year_three, year_three_totals],"csvs_final/new_cases_22.csv")
 
 
-        # x = np.arange(0, len(self.headers) - self.date_start_index)
-        # plt.title("New Cases Per Day")
-        # plt.xlabel("Days Since First Case")
-        # plt.ylabel("Number of New Cases")
-        # plt.plot(x, daily_totals)
-        # plt.show()
+        x = np.arange(0, len(self.headers) - self.date_start_index)
+        plt.title("New Cases Per Day")
+        plt.xlabel("Days Since First Case")
+        plt.ylabel("Number of New Cases")
+        plt.plot(x, daily_totals)
+        plt.show()
 
-    #Creates a new csv of states to total cases
+    #Creates a new csv of states to total cases. This method was meant to organize the data in a way that would
+    #allow it to be viewed as a map (done w the csv in excel), which is why the graph version is a bit clunky.
     def state_to_total(self):
         states = []
         total_cases = []
@@ -129,12 +133,24 @@ class Plot:
                 total_cases[len(total_cases) - 1] = total_cases[len(total_cases) - 1] + int(self.csv_array[i][last_index])
             prev_state = self.csv_array[i][state_index]
 
-        new_csv = []
-        new_csv.append(states)
-        new_csv.append(total_cases)
-        self.write_csv(new_csv, "csvs_final/states_cases_total.csv")
+        # new_csv = []
+        # new_csv.append(states)
+        # new_csv.append(total_cases)
+        # self.write_csv(new_csv, "csvs_final/states_cases_total.csv")
+        
+        x_axis = np.arange(0, len(total_cases)) 
+        fig, ax = plt.subplots(1)
+        ax.set_xticklabels(states, rotation=90);
+        ax.set_xticks(x_axis);
+        ax.bar(x_axis, total_cases, width=1, color ='maroon')
+        plt.xlabel("State")
+        plt.ylabel("No. of Total Cases")
+        plt.title("State to Total Cases")
+        plt.show()
 
-    #New cases per day per region
+    #New cases per day per region. This does not plot a graph because I mainly wanted to be able to compare regions
+    #using lines on one graph, but the graphs that Python generated were not pretty and very noisy, so I chose to
+    #instead use a csv to have more flexibility in cleaning up the graph in excel.
     def regional_vs_time(self):
         state_index = self.headers.index("Province_State")
 
@@ -158,9 +174,9 @@ class Plot:
                  "Alabama", "Kentucky", "Mississippi", "Tennessee", "Arkansas", "Louisiana", "Oklahoma", "Texas"]
         northeast_states = ["Connecticut", "Maine", "Massachusetts", "New Hampshire", "Rhode Island", "Vermont", "New Jersey", "New York", "Pennsylvania"]
 
+        #Sort states by region into the regional csv array
         for row in self.csv_array:
             state = row[state_index]
-            to_add = int(row[len(row) - 1])
             j = 0
             if state in west_states:
                 j = 1
@@ -179,7 +195,7 @@ class Plot:
                 regional_csv[j][i-self.date_start_index+1] = regional_csv[j][i-self.date_start_index+1] + diff
                 prev = int(row[i])
 
-        self.write_csv(regional_csv, "csvs_final/new_cases_regional.csv")
+        # self.write_csv(regional_csv, "csvs_final/new_cases_regional.csv")
 
     #Writes to a CSV
     def write_csv(self, new_csv, file_to_write):
@@ -188,12 +204,10 @@ class Plot:
         writer.writerows(new_csv)
 
         
-    
 
 if __name__ == "__main__":
-    # if not len(sys.argv) == 3:
-    #     print("Arguments: csv filepath to read, filepath to write")
-    #     exit()
-    # filepath = sys.argv[1]
-    # writeFile = sys.argv[2]
-    Plot()
+    if not len(sys.argv) == 2:
+        print("Argument: graph to plot (totalVsTime, newCasesVsTime, regionalToTotal, regionalVsTime)")
+        exit()
+
+    Plot(sys.argv[1])

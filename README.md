@@ -1,12 +1,11 @@
 # <b>Classes<b>
 #### <b>Parse:</b> This class cleans the CSV by removing rows with all zeros. It also removes the "Country_Region" column because it's the same for all rows as well as teh "iso3" column because "iso3" is  and the "Country_Region" and "iso3" is essentially the same as "iso2" and for these purposes, I felt like it was unnecessary. It returns the cleaned data to a new csv "cleaned_cases.csv".
-#### <b>Main:</b> Where the <i>main</i> action occurs. Writes 5 csvs:
+#### <b>Main:</b> Where the <i>main</i> action occurs. Plots 4 graphs:
 1. New cases per day overall
-2. New cases per day, split by year
 3. Total cases over time
 4. New cases per day per region (West, Midwest, South, Northeast, Territories)
 5. Total cases per state
-#### These CSVs are then used to create the graphs/visuals in Excel. However, some functions in this class originally just plotted the graphs in python. These graphs were fine, but I chose to write to CSVs and use Excel to have an easier time formatting the graphs and making them visually appealing.
+#### I originally used these classes to write to CSVs, which I then used to create graphs in Excel. I chose to use Excel in order to make the graphs more visually appealing than I could in Python. However, I have commented out the lines that write to the CSVs because I don't want to modify those files at the moment.
 
 # <b>Notes<b>
 ## <b>CSV header meanings</b>:
